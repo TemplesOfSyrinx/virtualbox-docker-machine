@@ -123,6 +123,14 @@ build() {
 	fi
 }
 
+up() {
+	if [ ! -f docker-compose.yml ]; then
+	  echo 'docker compose YAML file required'
+	  exit 1
+	fi
+	connect && docker-compose up -d
+}
+
 case "$1" in
 create)
     create
@@ -148,9 +156,12 @@ remove)
 build)
     build
     ;;
+up)
+    up
+    ;;
 *)
     if [ ! -z "$1" ]; then
-        echo "Usage: $0 {create|connect|start|stop|restart|status|remove|build} [ip address]"
+        echo "Usage: $0 {create|connect|start|stop|restart|status|remove|build|up}"
         exit 1
     fi
     create && setip && build
